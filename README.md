@@ -1,1 +1,1 @@
-# Orphanage: A simple Active Record library for storing temporary orphan records.
+# Orphanage: A simple library for storing temporary orphan records with Active Record.

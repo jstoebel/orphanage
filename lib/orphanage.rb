@@ -1,15 +1,7 @@
-# following tutorial here: http://www.metabates.com/2011/02/07/building-interfaces-and-abstract-classes-in-ruby/
-
-require './exam'
-require './exam_temp'
-require './student'
-
 require 'pry'
 
 module Orphanage
-
   def self.included(klass)
-    # klass.send(:include, Orphanage::Methods)
     klass.send(:include, Orphanage::Methods)
     klass.send(:extend, Orphanage::ClassMethods)
 
@@ -20,7 +12,7 @@ module Orphanage
     def adopt fks, options={}
       # creates a new record in the home table
       # fks(hash) mapping of foreign keys to values.
-      # options(hash): optionally override
+      # options(hash): optionally override adoption options set in class
 
       default_options = self.class.adopt_options
       merged_options = default_options.deep_merge options
@@ -42,16 +34,17 @@ module Orphanage
                       .attributes
                       .select {|k, v| allowed_cols.include? k}
 
-      record.update_attributes! fks
-      self.destroy! if options[:destroy_on_adopt]
-      
+      record.update_attributes!(fks)
+      binding.pry
+      self.destroy! if merged_options[:destroy_on_adopt]
+
     end # adopt
 
   end # methods
 
   module ClassMethods
 
-    def orphan_of(home, parents, options = {})
+    def orphan_of(home, options = {})
       # declare a class to be an orphan record class
       # home(string or symbol): lower case singular name of table the orphan
         # class will be adopted into. Example :exam or  "exam"
@@ -67,7 +60,6 @@ module Orphanage
             # at adoption
           # updated (bool): if updated_at timestamp should be updated
             # at adoption
-        # TODO
 
       default_options = {
         destroy_on_adopt: true,
@@ -89,7 +81,7 @@ module Orphanage
     end # parent
 
     def home_model= home
-      @@home_model = home.to_s.singularize.titleize.constantize
+      @@home_model = home.to_s.titleize.constantize
     end
 
     def adopt_options

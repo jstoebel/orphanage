@@ -67,7 +67,7 @@ RSpec.describe Orphanage, "orphan" do
         :updated_at => (10.days.ago)
       })
     end
-    
+
     context "with default options" do
 
       before do

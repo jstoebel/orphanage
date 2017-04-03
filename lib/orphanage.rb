@@ -1,5 +1,3 @@
-require 'pry'
-
 module Orphanage
   def self.included(klass)
     klass.send(:include, Orphanage::Methods)

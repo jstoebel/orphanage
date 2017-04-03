@@ -1,10 +1,12 @@
 ## Customize dependencies
 dependencies:
   override:
+    - echo "nothing!"
 
 ## Customize database setup
 database:
   override:
+    - echo "nothing!"
 
 ## Customize test commands
 test:

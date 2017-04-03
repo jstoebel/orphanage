@@ -1,12 +1,12 @@
 ## Customize dependencies
 dependencies:
   override:
-    - echo "nothing!"
+    - gem install rspec
 
 ## Customize database setup
 database:
   override:
-    - echo "nothing!"
+    - echo "no database step up needed. skipping"
 
 ## Customize test commands
 test:

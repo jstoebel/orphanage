@@ -1,0 +1,14 @@
+## Customize dependencies
+dependencies:
+  pre:
+    - mv spec/Gemfile.ci Gemfile
+
+## Customize database setup
+database:
+  override:
+    - echo "no database setup needed. skipping."
+
+## Customize test commands
+test:
+  override:
+    - bundle exec rspec

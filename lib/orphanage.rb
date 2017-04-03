@@ -1,5 +1,3 @@
-require 'pry'
-
 module Orphanage
   def self.included(klass)
     klass.send(:include, Orphanage::Methods)
@@ -10,14 +8,13 @@ module Orphanage
   module Methods
 
     def adopt fks, options={}
-      # creates a new record in the home table
+      # creates a new record in the home table. Returns the created record
       # fks(hash) mapping of foreign keys to values.
       # options(hash): optionally override adoption options set in class
 
       default_options = self.class.adopt_options
       merged_options = default_options.deep_merge options
-
-      dest = self.class.home_model # the destination model
+      dest = merged_options[:home] # the destination model
 
       # columns allowed in the destination model
       allowed_cols = dest.column_names
@@ -35,8 +32,10 @@ module Orphanage
                       .select {|k, v| allowed_cols.include? k}
 
       record.update_attributes!(fks)
-      binding.pry
+
       self.destroy! if merged_options[:destroy_on_adopt]
+
+      return record
 
     end # adopt
 
@@ -44,7 +43,7 @@ module Orphanage
 
   module ClassMethods
 
-    def orphan_of(home, options = {})
+    def orphan(options = {})
       # declare a class to be an orphan record class
       # home(string or symbol): lower case singular name of table the orphan
         # class will be adopted into. Example :exam or  "exam"
@@ -62,6 +61,7 @@ module Orphanage
             # at adoption
 
       default_options = {
+        home: self.name.gsub('Temp', '').constantize,
         destroy_on_adopt: true,
         update_timestamps: {
           created: true,
@@ -71,18 +71,18 @@ module Orphanage
 
       merged_options = default_options.deep_merge options
 
-      self.home_model = home
+      # self.home_model = home
       self.adopt_options = merged_options
 
     end # orphan_of
 
-    def home_model
-      @@home_model
-    end # parent
-
-    def home_model= home
-      @@home_model = home.to_s.titleize.constantize
-    end
+    # def home_model
+    #   @@home_model
+    # end # parent
+    #
+    # def home_model= home
+    #   @@home_model = home.to_s.titleize.constantize
+    # end
 
     def adopt_options
       @@adopt_options

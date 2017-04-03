@@ -1,0 +1,12 @@
+## Customize dependencies
+dependencies:
+  override:
+
+## Customize database setup
+database:
+  override:
+
+## Customize test commands
+test:
+  override:
+    - rspec

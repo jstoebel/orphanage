@@ -6,7 +6,7 @@ dependencies:
 ## Customize database setup
 database:
   override:
-    - echo "no database step up needed. skipping"
+    - echo "no database setup needed. skipping."
 
 ## Customize test commands
 test:

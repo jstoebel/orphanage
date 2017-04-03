@@ -12,7 +12,7 @@ RSpec.describe Orphanage, "orphan" do
     # reset class state
     default_options = {
       home: Exam,
-      destroy_on_adopt: true,
+      destroy_on_adopt: false,
       update_timestamps: {
         created: true,
         updated: true
@@ -27,7 +27,7 @@ RSpec.describe Orphanage, "orphan" do
     it "uses defaults if none given" do
       expected_options = {
         home: Exam,
-        destroy_on_adopt: true,
+        destroy_on_adopt: false,
         update_timestamps: {
           created: true,
           updated: true
@@ -41,7 +41,7 @@ RSpec.describe Orphanage, "orphan" do
     it "stores custom class options" do
       expected_options = {
         home: Bus,
-        destroy_on_adopt: false,
+        destroy_on_adopt: true,
         update_timestamps: {
           created: false,
           updated: false
@@ -92,9 +92,9 @@ RSpec.describe Orphanage, "orphan" do
         expect(Exam.count - @pre_count).to eq(1)
       end # creates record in home table
 
-      it "destroys self after adpotion" do
-        expect(@exam_temp.destroyed?).to be true
-      end # self destroys after adpotion
+      it "doesn't destroy self after adpotion" do
+        expect(@exam_temp.destroyed?).to be false
+      end # doesn't self destroy after adpotion
 
     end  # context
 
@@ -103,7 +103,7 @@ RSpec.describe Orphanage, "orphan" do
       before do
 
         @custom_options = {
-          destroy_on_adopt: false,
+          destroy_on_adopt: true,
           update_timestamps: {
             created: false,
             updated: false
@@ -131,9 +131,9 @@ RSpec.describe Orphanage, "orphan" do
         expect(Exam.count - @pre_count).to eq(1)
       end # creates record in home table
 
-      it "doesn't destroy self after adpotion" do
-        expect(@exam_temp.destroyed?).to be false
-      end # self destroys after adpotion
+      it "destroys self after adpotion" do
+        expect(@exam_temp.destroyed?).to be true
+      end # destroys self after adpotion
 
     end  # context
 

@@ -27,7 +27,7 @@ require 'orphanage'
 # connect to in memory sqlite db run schema and require models
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 load File.dirname(__FILE__) + '/schema.rb'
-Dir.glob("/Users/stoebelj/Sites/orphanage/spec/models/*").each {|model| require model }
+Dir.glob(File.dirname(__FILE__)  + "/models/*").each {|model| require model }
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -31,9 +31,10 @@ module Orphanage
                       .attributes
                       .select {|k, v| allowed_cols.include? k}
 
-      record.update_attributes!(fks)
-
-      self.destroy! if merged_options[:destroy_on_adopt]
+      dest.transaction do
+        record.update_attributes!(fks)
+        self.destroy! if merged_options[:destroy_on_adopt]
+      end
 
       return record
 
@@ -62,7 +63,7 @@ module Orphanage
 
       default_options = {
         home: self.name.gsub('Temp', '').constantize,
-        destroy_on_adopt: true,
+        destroy_on_adopt: false,
         update_timestamps: {
           created: true,
           updated: true

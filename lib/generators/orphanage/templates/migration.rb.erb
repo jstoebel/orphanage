@@ -1,0 +1,14 @@
+class Create<%= home_model_name %>Temps < ActiveRecord::Migration
+  def up
+    create_table :<%= orphan_table_name -%> do |t|
+      <%- migration_columns.each do |col| %>
+      <%= col %>
+      <% end %>
+      t.timestamps
+    end
+  end
+
+  def down
+    drop_table :<%= orphan_table_name -%>
+  end
+end

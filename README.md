@@ -16,7 +16,21 @@ Let's say you are have a database with `students` having many `exams`. Exam resu
 
 ## Usage
 
-First create a model for your temporary records (we'll call this the orphan model). By default orphanage expects the model to have `Temp` appended to the original, so for example an orphan model to `Exam` would be `ExamTemp`.
+### Model Creation
+
+#### Using the generator
+
+Assuming your home model already exists and its corresponding table exists in the database run `rails generate orphanage:init <HomeModelName>`. For example:
+
+```
+rails generate orphanage:init Exam
+```
+
+generates a model for your orphan table as well as a migration file that will give you all of the columns existing in the home model. You'll also get any other files you would expect when running `rails generate model` (such as tests, factories, fixtures, etc as the case may be)
+
+#### Manually
+
+Creating an orphan model by hand isn't much more work. By default orphanage expects the model to have `Temp` appended to the original, so for example an orphan model to `Exam` would be `ExamTemp`.
 
 Then inside that model:
 ```
@@ -28,10 +42,13 @@ class ExamTemp < ActiveRecord::Base
 end
 ```
 
-From there you can add temporary records to this orphan table like you normally would. When you are ready to transfer a temporary record to the permanent "home" table, call the method `adopt`. For example:
+From there you can add temporary records to this orphan table like you normally would.
+
+#### Adoption
+
+Transferring a model to its home table is done by calling the `adopt` method. For example:
 
 ```
-
 # record can't be stored in exam table because it has no student_id
 exam_temp = ExamTemp.create!({:score => 150,
   :taken_on => Date.today,
@@ -43,7 +60,7 @@ exam_temp = ExamTemp.create!({:score => 150,
 exam_temp.adopt({:student_id => 1})
 ```
 
-Calling `adopt`, if successful, will return the created permanent record and, by default, destroy the orphan record.
+Calling `adopt`, if successful, will return the created permanent record. The temporary record will stick around unless you explicitly as for it to be destroyed (see below)
 
 ## Customizations
 

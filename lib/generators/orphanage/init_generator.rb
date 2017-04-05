@@ -17,10 +17,6 @@ module Orphanage
         fail "Home model not found. Plese generate it first."
       end
 
-      # presumed_model_path = "#{::Rails.root}/app/models/#{home_file_name}.rb"
-      # model_exists = FileTest.exist? presumed_model_path
-      # puts "WARNING: model #{home_model_name} not found at #{presumed_model_path}" if !model_exists
-
       table_exists = ActiveRecord::Base.connection.data_source_exists? home_table_name
       fail "table #{home_table_name} does not exist. Stopping." if !table_exists
 
@@ -33,17 +29,14 @@ module Orphanage
 
     def orphanize_model
       # change the model to be an orphan model
-      # gsub_file "app/models/#{file_name}/.rb", "replaced!"
       puts "replacing model..."
       template "model.rb.erb", "app/models/#{home_file_name}_temp.rb", force: true
     end
 
     def create_migration
       puts "creating migration file..."
-
       migration_file_name = "#{Time.now.utc.strftime("%Y%m%d%H%M%S")}_create_#{home_file_name}_temps.rb"
       template "migration.rb.erb", "db/migrate/#{migration_file_name}"
-
     end # create_migration
 
     private

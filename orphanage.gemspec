@@ -6,11 +6,9 @@ Gem::Specification.new do |s|
   s.description = s.summary
   s.authors     = ["Jacob Stoebel"]
   s.email       = 'jstoebel@gmail.com'
-  # s.files       = ["lib/orphanage.rb", "lib/generators/orphanage/init_generator.rb"]
   s.files =     Dir.glob("{bin,lib}/**/*") + %w(LICENSE README.md)
-  s.homepage    =
-    'https://github.com/jstoebel/orphanage'
-  s.license       = 'MIT'
+  s.homepage    = 'https://github.com/jstoebel/orphanage'
+  s.license     = 'MIT'
 
   s.add_development_dependency 'activerecord', '~> 5.0', '>= 5.0.2'
   s.add_development_dependency 'rspec', '~> 3.5'

@@ -26,7 +26,7 @@ Assuming your home model already exists and its corresponding table exists in th
 rails generate orphanage:init Exam
 ```
 
-generates a model for your orphan table as well as a migration file that will give you all of the columns existing in the home model. You'll also get any other files you would expect when running `rails generate model` (such as tests, factories, fixtures, etc as the case may be)
+generates a model for your orphan table as well as a migration file that will give you all of the columns existing in the home model. You might want to add additional columns that will help you identify the orphan record. Using the exam example above, you might add `first_name` and `last_name` to the `ExamTemp` model as a temporary identifier. You'll also get any other files you would expect when running `rails generate model` (such as tests, factories, fixtures, etc as the case may be)
 
 #### Manually
 
@@ -44,7 +44,7 @@ end
 
 From there you can add temporary records to this orphan table like you normally would.
 
-#### Adoption
+### Adoption
 
 Transferring a model to its home table is done by calling the `adopt` method. For example:
 
@@ -60,9 +60,9 @@ exam_temp = ExamTemp.create!({:score => 150,
 exam_temp.adopt({:student_id => 1})
 ```
 
-Calling `adopt`, if successful, will return the created permanent record. The temporary record will stick around unless you explicitly as for it to be destroyed (see below)
+Calling `adopt`, if successful, will return the created permanent record. The temporary record will stick around unless you explicitly ask for it to be destroyed (see below)
 
-## Customizations
+### Customizations
 
 You can customize the behavior at the model level and/or the instance level with instance level customizations taking precedence. To do so, pass in a hash with any of the following keys.
 
@@ -72,7 +72,7 @@ You can customize the behavior at the model level and/or the instance level with
     - __created__ if the `created_at` timestamp should be persisted from the orphan record. Defaults to `true`.
     - __updated__ if the `updated_at` timestamp should be persisted from the orphan record. Defaults to `true`.
 
-### Examples
+#### Examples
 
 Let's say our orphan model is `ExamTemp`
 

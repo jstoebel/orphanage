@@ -62,7 +62,7 @@ module Orphanage
       needed_cols = home_model.columns.select { |col| !%w(id created_at updated_at).include? col.name }
 
       # returns an array of strings each representing a single column to add in the migration.
-      migrations = needed_cols.map {|col| "t.#{col.sql_type_metadata.type} :#{col.name}, null: #{col.null}" }
+      migrations = needed_cols.map {|col| "t.#{col.type} :#{col.name}, null: #{col.null}" }
 
       return migrations
 

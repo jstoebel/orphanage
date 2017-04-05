@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'orphanage'
-  s.version     = '0.2.0'
+  s.version     = '0.3.0'
   s.date        = '2017-03-30'
   s.summary     = "A simple library for storing temporary orphan records."
   s.description = s.summary
